@@ -60,7 +60,18 @@ HelpScoutNet is a .NET class library that provides an easy-to-use interface for 
 
 ###Docs API
 
-Nothing done yet
+* Article
+    * List Articles
+    * Get Article
+* Category
+    * List Categories
+    * Get Category
+* Collection
+    * List Collections
+    * Get Collection
+* Site
+    * List Sites
+    * Get Site
 
 ##Examples 
 

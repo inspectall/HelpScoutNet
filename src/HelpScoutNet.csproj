@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
@@ -43,10 +46,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HelpScoutClient.cs" />
+    <Compile Include="HelpScoutDocsClient.cs" />
     <Compile Include="HelpScoutWebhookHelper.cs" />
     <Compile Include="Model\Conversation.cs" />
     <Compile Include="Model\Customer.cs" />
     <Compile Include="HelpScoutApiException.cs" />
+    <Compile Include="Model\Docs\Article.cs" />
+    <Compile Include="Model\Docs\Category.cs" />
+    <Compile Include="Model\Docs\Collection.cs" />
+    <Compile Include="Model\Docs\Person.cs" />
+    <Compile Include="Model\Docs\Site.cs" />
     <Compile Include="Model\HelpScoutError.cs" />
     <Compile Include="Model\Mailbox.cs" />
     <Compile Include="Model\Paged.cs" />
@@ -78,6 +87,9 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Request\CreateAttachmentRequest.cs" />
     <Compile Include="Request\CustomerRequest.cs" />
+    <Compile Include="Request\Docs\ArticleRequest.cs" />
+    <Compile Include="Request\Docs\CategoryRequest.cs" />
+    <Compile Include="Request\Docs\CollectionRequest.cs" />
     <Compile Include="Request\FieldRequest.cs" />
     <Compile Include="Request\CreateCustomerRequest.cs" />
     <Compile Include="Request\PostOrPutRequest.cs" />

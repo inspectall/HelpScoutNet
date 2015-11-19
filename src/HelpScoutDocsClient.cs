@@ -45,14 +45,15 @@ namespace HelpScoutNet
         #region Sites
         public Paged<Site> ListSites(PageRequest requestArg = null)
         {
-            return Get<Paged<Site>>("sites", requestArg);
+            PagedSites ps = Get<PagedSites>("sites", requestArg);
+            Paged<Site> pagedSite = ps.Sites;
+            return pagedSite;
         }
 
         public Site GetSite(string siteId)
         {
-            var singleItem = Get<SingleItem<Site>>(string.Format("sites/{0}", siteId), null);
-
-            return singleItem.Item;
+            SingleSite ss = Get<SingleSite>(string.Format("sites/{0}", siteId), null);
+            return ss.Site;
         }
         #endregion
 
@@ -60,74 +61,72 @@ namespace HelpScoutNet
 
         public Paged<Collection> ListCollections(string siteId = null, CollectionRequest requestArg = null)
         {
-            return Get<Paged<Collection>>("collections", requestArg);
+            if (siteId != null)
+            {
+                if (requestArg == null)
+                    requestArg = new CollectionRequest();
+                requestArg.SiteId = siteId;
+            }
+            PagedCollections pc = Get<PagedCollections>("collections", requestArg);
+            return pc.Collections;
         }
 
         public Collection GetCollection(string collectionId, FieldRequest requestArg = null)
         {
-            var singleItem = Get<SingleItem<Collection>>(string.Format("collections/{0}", collectionId), requestArg);
-
-            return singleItem.Item;
+            SingleCollection ss = Get<SingleCollection>(string.Format("collections/{0}", collectionId), requestArg);
+            return ss.Collection;
         }
 
         public Collection GetCollection(int collectionNumber)
         {
-            var singleItem = Get<SingleItem<Collection>>(string.Format("collections/{0}", collectionNumber), null);
-
-            return singleItem.Item;
+            SingleCollection ss = Get<SingleCollection>(string.Format("collections/{0}", collectionNumber), null);
+            return ss.Collection;
         }
         #endregion
 
         #region Categories
         public Paged<Category> ListCategories(string collectionId, CategoryRequest requestArg = null)
         {
-            string endpoint = string.Format("collections/{0}/categories", collectionId);
-
-            return Get<Paged<Category>>(endpoint, requestArg);
+            PagedCategories pc = Get<PagedCategories>(string.Format("collections/{0}/categories", collectionId), requestArg);
+            return pc.Categories;
         }
 
         public Category GetCategory(string categoryId)
         {
-            var singleItem = Get<SingleItem<Category>>(string.Format("categories/{0}", categoryId), null);
-
-            return singleItem.Item;
+            SingleCategory sc = Get<SingleCategory>(string.Format("categories/{0}", categoryId), null);
+            return sc.Category;
         }
 
         public Category GetCategory(int categoryNumber)
         {
-            var singleItem = Get<SingleItem<Category>>(string.Format("categories/{0}", categoryNumber), null);
-
-            return singleItem.Item;
+            SingleCategory sc = Get<SingleCategory>(string.Format("categories/{0}", categoryNumber), null);
+            return sc.Category;
         }
         #endregion
 
         #region Articles
         public Paged<ArticleRef> ListArticlesForCollection(string collectionId, ArticleRequest requestArg = null)
         {
-            string endpoint = string.Format("collections/{0}/articles", collectionId);
-
-            return Get<Paged<ArticleRef>>(endpoint, requestArg);
+            PagedArticles pa = Get<PagedArticles>(string.Format("collections/{0}/articles", collectionId), requestArg);
+            return pa.Articles;
         }
 
         public Paged<ArticleRef> ListArticlesForCategory(string categoryId, ArticleRequest requestArg = null)
         {
-            string endpoint = string.Format("categories/{0}/articles", categoryId);
-
-            return Get<Paged<ArticleRef>>(endpoint, requestArg);
+            PagedArticles pa = Get<PagedArticles>(string.Format("categories/{0}/articles", categoryId), requestArg);
+            return pa.Articles;
         }
 
-        public Collection GetArticle(string articleId)
+        public Article GetArticle(string articleId)
         {
-            var singleItem = Get<SingleItem<Collection>>(string.Format("articles/{0}", articleId), null);
-
-            return singleItem.Item;
+            SingleArticle sa = Get<SingleArticle>(string.Format("articles/{0}", articleId), null);
+            return sa.Article;
         }
 
-        public Collection GetArticle(int articleNumber)
+        public Article GetArticle(int articleNumber)
         {
-            var singleItem = Get<SingleItem<Collection>>(string.Format("articles/{0}", articleNumber), null);
-
-            return singleItem.Item;
+            SingleArticle sa = Get<SingleArticle>(string.Format("articles/{0}", articleNumber), null);
+            return sa.Article;
         }
         #endregion
 
@@ -136,14 +135,14 @@ namespace HelpScoutNet
             var client = InitHttpClient();
 
             string debug = BaseUrl + endpoint + ToQueryString(request);
-
+            Console.WriteLine("URL:" + debug);
             HttpResponseMessage response = client.GetAsync(BaseUrl + endpoint + ToQueryString(request)).Result;
             string body = response.Content.ReadAsStringAsync().Result;
-
+            Console.WriteLine("Body:" + body);
             if (response.IsSuccessStatusCode)
             {
+                Console.WriteLine("Serializer Settings:" + _serializerSettings);
                 T result = JsonConvert.DeserializeObject<T>(body, _serializerSettings);
-
                 return result;
             }
 

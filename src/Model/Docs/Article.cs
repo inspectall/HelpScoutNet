@@ -3,6 +3,16 @@ using System.Collections.Generic;
 
 namespace HelpScoutNet.Model.Docs
 {
+    class PagedArticles
+    {
+        public Paged<ArticleRef> Articles { get; set; }
+    }
+
+    class SingleArticle
+    {
+        public Article Article { get; set; }
+    }
+
     public class ArticleRef
     {
         public string Id { get; set; }

@@ -2,6 +2,16 @@
 
 namespace HelpScoutNet.Model.Docs
 {
+    class PagedCategories
+    {
+        public Paged<Category> Categories { get; set; }
+    }
+
+    class SingleCategory
+    {
+        public Category Category { get; set; }
+    }
+
     public class Category
     {
         public string Id { get; set; }

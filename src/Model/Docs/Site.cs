@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace HelpScoutNet.Model.Docs
 {
@@ -8,9 +9,20 @@ namespace HelpScoutNet.Model.Docs
         inactive
     }
 
+    class PagedSites
+    {
+        public Paged<Site> Sites { get; set; }
+    }
+
+    class SingleSite
+    {
+        public Site Site { get; set; }
+    }
+
     public class Site
     {
         public string Id { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public SiteStatus Status { get; set; }
         public string SubDomain { get; set; }
         public string Cname { get; set; }

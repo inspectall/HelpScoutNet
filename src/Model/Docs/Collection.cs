@@ -8,6 +8,16 @@ namespace HelpScoutNet.Model.Docs
         Private
     }
 
+    class PagedCollections
+    {
+        public Paged<Collection> Collections { get; set; }
+    }
+
+    class SingleCollection
+    {
+        public Collection Collection { get; set; }
+    }
+
     public class Collection
     {
         public string Id { get; set; }
